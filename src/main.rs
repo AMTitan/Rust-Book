@@ -1,23 +1,21 @@
 use std::io;
-use rand::Rng;
 use std::cmp::Ordering;
+mod guess;
 
 fn main() {
-    println!("what is your number");
-    let num = rand::thread_rng().gen_range(1..101);
+    let have = vec!["guess"];
+    println!("What would you like to play? I have {:?}", have);
     loop {
-        let mut guess = String::new();
+        let mut game = String::new();
         io::stdin()
-            .read_line(&mut guess)
+            .read_line(&mut game)
             .expect("something did not work");
-        let guess: u32 = guess.trim().parse().expect("Please type a number!");
-        match guess.cmp(&num) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
-            Ordering::Equal => {
-                println!("You win!");
-                break;
-            }
+        game = game.trim().parse().unwrap();
+        if game == "guess" {
+            guess::main();
+            break;
+        }else { 
+            println!("I do not know that game sorry. I have {:?}", have);
         }
     }
 }
